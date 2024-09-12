@@ -9,13 +9,32 @@ import java.util.Scanner;
  * Дополнительные команды: C - сбросить результат и начать вычисления сначала, s - завершение работы
  */
 public class ConsoleCalculator {
+    /**
+     * Коды чисел 0-9 и дробного разделителя, точки (.)
+     **/
     private final static List<Integer> DOUBLE_SYMBOL_CODES = List.of(46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57);
+
+    /**
+     * Доступные операции вычислений
+     **/
     private final static List<String> OPERATION_SYMBOLS = List.of("+", "-", "/", "*");
+
+    /**
+     * Команда сброса вычислений
+     **/
     private final static String COMMAND_CLEAR = "C";
+
+    /**
+     * Команда завершения работы
+     **/
     private final static String COMMAND_STOP = "s";
+
     private final Scanner scanner = new Scanner(System.in);
+
     private boolean isNumberInput = true;
+
     private String operation = "+";
+
     private double result = 0;
 
     public static void main(String[] args) {
