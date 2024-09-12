@@ -53,6 +53,7 @@ public class ConsoleCalculator {
                 }
                 case COMMAND_CLEAR -> {
                     result = 0;
+                    operation = "+";
                     isNumberInput = true;
                     continue;
                 }
@@ -92,6 +93,6 @@ public class ConsoleCalculator {
                 return false;
             }
         }
-        return true;
+        return Double.parseDouble(input) != 0 || !"/".equals(operation);
     }
 }
