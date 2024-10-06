@@ -1,4 +1,4 @@
-package ru.korolvd.mephi.module2.calculator;
+package ru.korolvd.mephi.core.calculator;
 
 import java.util.List;
 import java.util.Scanner;
