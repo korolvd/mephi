@@ -13,8 +13,8 @@ public class YandexWeatherClient implements WeatherClient {
 
     public YandexWeatherClient() {
         ResourceBundle config = ResourceBundle.getBundle("app");
-        this.apiUrl = config.getString("yandex.weather.key");
-        this.weatherKey = config.getString("yandex.weather.url");
+        this.apiUrl = config.getString("yandex.weather.url");
+        this.weatherKey = config.getString("yandex.weather.key");
     }
 
     @Override
