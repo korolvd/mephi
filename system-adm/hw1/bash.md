@@ -29,5 +29,13 @@ find dir1 -type f -name "*.txt" | xargs wc -l
 и записывает результаты в файл «disk_space_usage.txt».
 
 ```shell
+df -h | awk '{ print $5, $2, $1 }' | sort -rk1 > disk_space_usage.txt
+```
+
+
+Напишите конвейер, который использует команды cat, grep, awk, sort и tar для фильтрации строк с ключевым словом 
+в лог-файлах, сортировки и архивации результатов.
+
+```shell
 cat /var/log/kern.log | grep ERROR | awk '{ printf "%s %s %s", $1, $2, $3; for (i = 8; i <= NF; i++) printf " %s", $i; print "" }' | sort -k1,1M -k2,2n -k3,3 > filtered_logs.txt && tar -cvzf filtered_logs.tar.gz filtered_logs.txt
 ```
