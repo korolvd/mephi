@@ -85,9 +85,9 @@ keyword="ERROR"
 
 echo "Анализ ключевого слова $keyword в лог-файлах директории $dir"
 
-count_words=0
-count_files=0
-count_files_fail=0
+count_words=0 #число строк с ключевым словом в проанализированных файлах
+count_files=0 #число проанализированных файлов
+count_files_fail=0 #число файлов, которые не удалось прочитать
 for logfile in "$dir"/*.log; do
   if ! [ -f $logfile ]; then #проверка на файл
     continue
