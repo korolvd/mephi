@@ -39,3 +39,71 @@ df -h | awk '{ print $5, $2, $1 }' | sort -rk1 > disk_space_usage.txt
 ```shell
 cat /var/log/kern.log | grep ERROR | awk '{ printf "%s %s %s", $1, $2, $3; for (i = 8; i <= NF; i++) printf " %s", $i; print "" }' | sort -k1,1M -k2,2n -k3,3 > filtered_logs.txt && tar -cvzf filtered_logs.tar.gz filtered_logs.txt
 ```
+
+
+# Часть 2
+
+Создайте Bash-скрипт, который будет проверять доступность нескольких хостов в вашей локальной сети. Список хостов
+(IP-адреса или доменные имена) должен быть задан в переменной в начале скрипта. Скрипт должен последовательно проверять
+каждый хост на доступность с использованием команды ping. Если хост доступен, выведите сообщение «Хост [ИМЯ ХОСТА]
+доступен», если нет — выведите сообщение «Хост [ИМЯ ХОСТА] недоступен». В конце скрипта выведите общее количество
+доступных и недоступных хостов.
+
+```bash
+#!/bin/bash
+# Срипт пингует адреса, указанные в hosts. Количество доступных/недоступных сохраняет в available/unavailable 
+hosts=("yandex.rur" "google.com")
+
+available=0
+unavailable=0
+for host in ${hosts[@]}; do
+  if ping -с 1 $host &> /dev/null; then
+    echo "Хост $host доступен" 
+    ((available++))
+  else
+    echo "Хост $host недоступен"
+    ((unavailable++))
+  fi
+done
+
+echo -е "\nДоступных хостов: $available" 
+echo "Недоступных хостов: $unavailable"
+```
+
+
+Напишите Bash-скрипт для анализа лог-файлов в указанной директории. Скрипт должен найти все файлы с расширением «.log» 
+в указанной директории и подсчитать количество строк, содержащих определенное ключевое слово (например, «ERROR» 
+или «Exception»). Ключевое слово должно быть задано в переменной в начале скрипта. Скрипт должен выводить сообщение
+в формате: «Файл [ИМЯ ФАЙЛА] содержит [КОЛИЧЕСТВО СТРОК С КЛЮЧЕВЫМ СЛОВОМ] строк с ключевым словом [КЛЮЧЕВОЕ СЛОВО]». 
+В конце скрипта выведите общее количество строк с ключевым словом по всем лог-файлам в данной директории.
+
+```bash
+#!/bin/bash
+# Скрипт ищет лог файлы в указанной директории dir и подсчитывает количество строк с ключевым словом keyword
+dir="/var/log"
+keyword="ERROR"
+
+echo "Анализ ключевого слова $keyword в лог-файлах директории $dir"
+
+count_words=0
+count_files=0
+count_files_fail=0
+for logfile in "$dir"/*.log; do
+  if ! [ -f $logfile ]; then #проверка на файл
+    continue
+  elif ! [ -r $logfile ]; then #проверка на право чтения
+    echo "Файл $(basename $logfile) недоступен для чтения"
+    ((count_files_fail++))
+  else
+    current_count=$(grep -c $keyword $logfile)
+    echo "Файл $(basename $logfile) содержит $current_count строк с ключевым словом $keyword"
+    ((count_words+=$current_count))
+    ((count_files++))
+  fi
+done
+
+echo -e "\nВсего найдено $count_words строк с ключевым словом $keyword в $count_files лог-файлах директории $dir" 
+if [ count_files_fail > 0 ]; then
+  echo "$count_files_fail файлов недоступны для чтения"
+fi
+```
