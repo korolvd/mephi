@@ -13,6 +13,7 @@ public class Cell {
     private final int y;
 
     public Cell(int x, int y) {
+        //test
         if (!isCell(x, y)) {
             throw new ChessException("Некорректные координаты клетки " + x + " " + y);
         }
