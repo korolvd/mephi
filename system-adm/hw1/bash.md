@@ -57,7 +57,7 @@ hosts=("yandex.rur" "google.com")
 available=0
 unavailable=0
 for host in ${hosts[@]}; do
-  if ping -c 1 $host &> /dev/null; then
+  if ping -с 1 $host &> /dev/null; then
     echo "Хост $host доступен" 
     ((available++))
   else
@@ -66,7 +66,7 @@ for host in ${hosts[@]}; do
   fi
 done
 
-echo -e "\nДоступных хостов: $available" 
+echo -е "\nДоступных хостов: $available" 
 echo "Недоступных хостов: $unavailable"
 ```
 
